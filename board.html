@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Public Board</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Navbar injected by main.js -->
+
+    <div class="container main-content">
+        <header class="flex items-center justify-between" style="margin-bottom: 30px;">
+            <h1>Community Board</h1>
+            <div class="flex items-center gap-4">
+                <input type="text" id="board-search" placeholder="Search Author" class="form-input"
+                    style="width: 250px; padding: 8px;">
+                <button onclick="createTopicUI()" class="btn btn-primary">+ Create Topic</button>
+            </div>
+        </header>
+
+        <div class="card">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 2px solid var(--border); color: var(--text-muted);">
+                        <th style="padding: 15px; width: 40%;">Caption</th>
+                        <th style="padding: 15px; width: 25%;">Author</th>
+                        <th style="padding: 15px; width: 15%;">Stats</th>
+                        <th style="padding: 15px; width: 20%; text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="public-board-list">
+                    <!-- Board items injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/board.js"></script>
+</body>
+
+</html>

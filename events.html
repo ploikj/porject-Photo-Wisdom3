@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Events</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        .event-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .event-date-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .event-month {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .event-day {
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .poster-container {
+            position: relative;
+            aspect-ratio: 2/3;
+            /* Standard poster ratio */
+            overflow: hidden;
+            border-radius: var(--radius-sm);
+        }
+
+        .poster-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="nav-placeholder"></div>
+    <main class="container main-content" style="padding-bottom: 60px;">
+
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 style="font-size: 2rem; margin-bottom: 5px;">Community Events</h1>
+                <p class="text-muted">Discover cosplays, photowalks, and festivals.</p>
+            </div>
+            <a href="create-event.html" class="btn btn-primary">+ Post Event</a>
+        </div>
+
+        <!-- Events Grid -->
+        <div id="events-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
+            <!-- Events rendered here -->
+            <div class="card" style="padding: 40px; text-align: center; grid-column: 1/-1;">
+                <p class="text-muted">Loading upcoming events...</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/events.js"></script>
+</body>
+
+</html>

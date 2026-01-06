@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Topic</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Navbar injected by main.js -->
+
+    <div class="container main-content">
+        <a href="board.html" class="btn btn-outline" style="margin-bottom: 20px; display: inline-block;">&larr; Back to
+            Board</a>
+
+        <div id="topic-container" class="card" style="padding: 30px; margin-bottom: 30px;">
+            <!-- Topic Info Injected Here -->
+            <p style="text-align: center;">Loading topic...</p>
+        </div>
+
+        <div id="comments-section" class="card" style="padding: 30px;">
+            <h3>Comments</h3>
+            <div id="comments-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+                <!-- Comments Injected Here -->
+            </div>
+
+            <form id="comment-form" style="margin-top: 30px; display: flex; gap: 10px;">
+                <input type="text" id="comment-input" class="form-control" placeholder="Write a comment..." required>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/topic.js"></script>
+</body>
+
+</html>

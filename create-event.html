@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Post Event</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Navbar injected by main.js -->
+
+    <div class="container main-content flex items-center" style="justify-content: center; min-height: 80vh;">
+        <div class="card" style="width: 100%; max-width: 600px;">
+            <div style="margin-bottom: 30px;">
+                <h2 style="font-size: 2rem; margin-bottom: 10px;">Post New Event</h2>
+                <p class="text-muted">Share cosplay events, photowalks, or festivals.</p>
+            </div>
+
+            <form id="create-event-form">
+                <div class="form-group">
+                    <label class="form-label">Event Poster</label>
+                    <div class="flex gap-2">
+                        <input type="file" id="file-input" name="image" class="form-control" accept="image/*" required>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div
+                    style="margin-bottom: 20px; height: 300px; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: var(--radius-sm); position: relative;">
+                    <img id="preview-img" src="" alt="Preview"
+                        style="max-width: 100%; max-height: 100%; display: none;">
+                    <span id="preview-placeholder" class="text-muted">Poster Preview</span>
+
+                    <!-- Date Badge Preview (Optional visual aid) -->
+                    <div id="preview-badge"
+                        style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); padding: 8px 12px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1); display: none;">
+                        <span class="text-primary"
+                            style="font-size: 0.8rem; font-weight: 700; display: block; text-transform: uppercase;"
+                            id="preview-month">XXX</span>
+                        <span style="font-size: 1.4rem; font-weight: 700; line-height: 1; color: #fff;"
+                            id="preview-day">00</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Event Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="e.g. Cosplay Photo Walk" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">More Info Link (Optional)</label>
+                    <input type="url" name="link_url" class="form-control" placeholder="https://example.com/tickets">
+                </div>
+
+                <div class="flex gap-4" style="margin-bottom: 20px;">
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label class="form-label">Date & Time</label>
+                        <input type="datetime-local" id="event-date" name="event_date" class="form-control"
+                            style="color-scheme: dark;" required>
+                    </div>
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label class="form-label">Location</label>
+                        <input type="text" name="location" class="form-control" placeholder="e.g. Central Park"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="4" placeholder="Event details..."
+                        required></textarea>
+                </div>
+
+                <div class="flex gap-4" style="margin-top: 20px;">
+                    <a href="events.html" class="btn btn-outline" style="flex: 1;">Cancel</a>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Post Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/create-event.js"></script>
+</body>
+
+</html>

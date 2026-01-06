@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Search</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Navbar injected by main.js -->
+
+    <div class="container main-content">
+        <header class="card"
+            style="margin-bottom: 30px; display: flex; flex-direction: column; gap: 15px; background: rgba(30, 32, 40, 0.95);">
+            <h1 style="margin: 0;">Advanced Search</h1>
+            <div class="flex gap-4">
+                <select id="search-filter" class="form-control" style="width: 150px;">
+                    <option value="all">All</option>
+                    <option value="camera">Camera</option>
+                    <option value="lens">Lens</option>
+                    <option value="author">Author</option>
+                </select>
+                <input type="text" id="search-input" class="form-control" placeholder="Search photos..."
+                    style="flex: 1;">
+            </div>
+        </header>
+
+        <div id="search-results-container">
+            <!-- Results injected here -->
+            <p class="text-muted" style="text-align: center; margin-top: 50px;">Type to search photos...</p>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/search.js"></script>
+</body>
+
+</html>

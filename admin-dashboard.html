@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Navbar injected by main.js -->
+
+    <div class="container main-content">
+        <h1 style="margin-bottom: 30px;">Admin Dashboard</h1>
+
+        <div class="flex gap-4" style="margin-bottom: 30px;">
+            <div class="card" style="flex: 1; text-align: center;">
+                <h3 class="text-muted" style="font-size: 0.9rem;">Total Users</h3>
+                <p style="font-size: 2.5rem; font-weight: 700; color: var(--primary);" id="stat-users">0</p>
+            </div>
+            <div class="card" style="flex: 1; text-align: center;">
+                <h3 class="text-muted" style="font-size: 0.9rem;">Total Photos</h3>
+                <p style="font-size: 2.5rem; font-weight: 700; color: var(--accent);" id="stat-photos">0</p>
+            </div>
+            <div class="card" style="flex: 1; text-align: center;">
+                <h3 class="text-muted" style="font-size: 0.9rem;">Topics</h3>
+                <p style="font-size: 2.5rem; font-weight: 700;" id="stat-topics">0</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 15px;">User Management</h3>
+            <input type="text" id="admin-search" placeholder="Search users by name or username..." class="form-input"
+                style="width: 100%; margin-bottom: 20px; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+                        <th style="padding: 10px;">ID</th>
+                        <th style="padding: 10px;">User</th>
+                        <th style="padding: 10px;">Role</th>
+                        <th style="padding: 10px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-user-list">
+                    <!-- Injected -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

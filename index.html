@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+    <!-- Navbar injected by main.js -->
+
+    <div class="container main-content">
+        <header class="flex items-center justify-between" style="margin-bottom: 30px;">
+            <h1>Community Feed</h1>
+            <a href="upload.html" class="btn btn-primary">
+                + Upload Photo
+            </a>
+        </header>
+
+        <div id="feed-container"
+            style="display: flex; flex-direction: column; gap: 30px; max-width: 700px; margin: 0 auto;">
+            <!-- Photos will be injected here -->
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/feed.js"></script>
+</body>
+
+</html>

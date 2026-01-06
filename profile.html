@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Wisdom - Profile</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<!-- Navbar injected by main.js -->
+
+<!-- Banner -->
+<div class="profile-banner-container">
+    <div class="profile-banner-overlay"></div>
+</div>
+
+<div class="container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 50px;">
+
+    <!-- Header Card -->
+    <div class="profile-header-card">
+        <!-- Avatar -->
+        <div class="profile-avatar-container">
+            <img id="profile-avatar" src="" alt="Avatar" class="profile-avatar">
+        </div>
+
+        <!-- Info -->
+        <div class="profile-info">
+            <h1 id="profile-name" class="profile-name">Loading...</h1>
+            <div class="profile-username">
+                <span id="username-display">@...</span>
+                <!-- Role Badge if needed -->
+                <span id="role-badge" class="profile-role-badge" style="display:none">ADMIN</span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="profile-actions" id="profile-actions-container">
+            <!-- Edit Button Injected Here -->
+        </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="profile-details-grid">
+
+        <!-- Left: Bio & Gear -->
+        <div class="profile-main-column">
+            <div class="card" style="margin-bottom: 20px;">
+                <h4 style="margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">About Me
+                </h4>
+                <div id="profile-bio" class="profile-bio text-muted">
+                    <p>No bio available.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h4 style="margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">Camera
+                    Gear</h4>
+                <div id="profile-gear-container">
+                    <!-- Gear items -->
+                    <span class="text-muted">No gear listed.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Status & Socials -->
+        <div class="profile-side-column">
+            <div class="status-card">
+                <div id="work-status-badge" class="work-badge hidden">
+                    <span style="font-size: 1.2rem;">🟢</span> Open for Work
+                </div>
+
+                <h5 style="margin-bottom: 15px; color: var(--text-light);">Connect</h5>
+                <div id="social-links-container">
+                    <!-- Social Buttons -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Photos -->
+    <h3 style="margin-bottom: 25px; font-weight: 700;">My Shots</h3>
+    <div id="profile-photos" class="masonry-grid">
+        <!-- Render Photos Here -->
+    </div>
+
+</div>
+
+<!-- Edit Profile Modal -->
+<div id="edit-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 style="margin-bottom: 20px;">Edit Profile</h2>
+        <form id="edit-profile-form" onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea id="edit-bio" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label class="form-label">Camera Body</label>
+                    <input type="text" id="edit-camera" class="form-control" placeholder="e.g. Sony A7IV">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lens</label>
+                    <input type="text" id="edit-lens" class="form-control" placeholder="e.g. 24-70mm GM">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Facebook URL</label>
+                <input type="text" id="edit-facebook" class="form-control" placeholder="https://facebook.com/...">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Instagram Handle</label>
+                <input type="text" id="edit-instagram" class="form-control" placeholder="@username">
+            </div>
+
+            <div class="form-group flex items-center gap-3">
+                <input type="checkbox" id="edit-open-work" style="width: 20px; height: 20px;">
+                <label for="edit-open-work" style="margin: 0; font-weight: 500;">Open for Work</label>
+            </div>
+
+            <div class="flex justify-end gap-3" style="margin-top: 25px;">
+                <button type="button" class="btn btn-outline" onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="save-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="js/profile.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,310 @@
+/* Profile Page Specific Styles */
+
+:root {
+    --profile-banner-height: 200px;
+    --profile-avatar-size: 140px;
+    --glass-bg: rgba(30, 30, 35, 0.7);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-backdrop: blur(12px);
+}
+
+/* Banner */
+.profile-banner-container {
+    height: var(--profile-banner-height);
+    width: 100%;
+    position: relative;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: -70px;
+    /* Overlap with content */
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+}
+
+.profile-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+}
+
+/* Header Card (Glassmorphism) */
+.profile-header-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
+    border: var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+/* Avatar */
+.profile-avatar-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.profile-avatar {
+    width: var(--profile-avatar-size);
+    height: var(--profile-avatar-size);
+    border-radius: 50%;
+    border: 5px solid var(--bg-card);
+    /* Should match card bg or dark */
+    /* Since card is glass, let's use a dark fallback or actual dark color */
+    border-color: #1a1b23;
+    object-fit: cover;
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-md);
+}
+
+/* Main Info */
+.profile-info {
+    flex: 1;
+    min-width: 250px;
+    padding-bottom: 10px;
+    /* Align visual baseline */
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #fff, #a5b4fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+}
+
+.profile-username {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-role-badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+}
+
+/* Action Area (Right Side) */
+.profile-actions {
+    margin-bottom: 15px;
+    /* Alignment fix */
+}
+
+/* Detail Columns */
+.profile-details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .profile-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-header-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 60px;
+        /* Space for avatar overlap if needed, though flex handles it */
+        margin-top: 30px;
+    }
+
+    .profile-banner-container {
+        margin-bottom: -50px;
+    }
+
+    .profile-name {
+        font-size: 2rem;
+    }
+
+    .profile-avatar {
+        margin-top: -80px;
+        /* Pull up */
+    }
+
+    .profile-info {
+        width: 100%;
+        padding-bottom: 0;
+    }
+}
+
+/* Bio Section */
+.profile-bio p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+/* Gear Tags */
+.gear-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.gear-tag i {
+    color: var(--accent);
+}
+
+/* Status Sidebar */
+.status-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+}
+
+.work-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+.work-badge.hidden {
+    display: none;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.social-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
+    border-color: var(--text-light);
+}
+
+.social-btn.facebook:hover {
+    border-color: #3b5998;
+    color: #3b5998;
+}
+
+.social-btn.instagram:hover {
+    border-color: #e1306c;
+    color: #e1306c;
+}
+
+/* Photo Grid Overrides */
+.masonry-grid {
+    columns: 3 250px;
+    column-gap: 20px;
+}
+
+.photo-item {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.photo-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s;
+}
+
+.photo-item:hover img {
+    transform: scale(1.05);
+}
+
+.photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.photo-item:hover .photo-overlay {
+    opacity: 1;
+}
+
+/* Modal styles are often global, but adding specific override here if needed */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    width: 90%;
+    max-width: 600px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    padding: 30px;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    max-height: 90vh;
+    /* Allow scrolling if tall */
+    overflow-y: auto;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
