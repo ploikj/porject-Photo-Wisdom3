@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(100) NOT NULL,
     role ENUM('user', 'admin') DEFAULT 'user',
     avatar VARCHAR(255),
+    email VARCHAR(255),
+    google_id VARCHAR(255),
     bio TEXT,
     facebook VARCHAR(255),
     instagram VARCHAR(255),

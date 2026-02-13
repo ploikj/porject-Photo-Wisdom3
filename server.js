@@ -68,6 +68,12 @@ async function initDB() {
                     console.log('Migrating: Adding link_url column to events...');
                     await setupConn.query("ALTER TABLE events ADD COLUMN link_url VARCHAR(255)");
                 }
+
+                const [userCols] = await setupConn.query("SHOW COLUMNS FROM users LIKE 'email'");
+                if (userCols.length === 0) {
+                    console.log('Migrating: Adding email/google_id columns to users...');
+                    await setupConn.query("ALTER TABLE users ADD COLUMN email VARCHAR(255), ADD COLUMN google_id VARCHAR(255)");
+                }
             } catch (e) {
                 console.log('Migration check skipped:', e.message);
             }
