@@ -7,6 +7,7 @@
     <title>Photo Wisdom - Login</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -30,6 +31,22 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Sign In</button>
+
+                <div class="flex items-center gap-3" style="margin: 20px 0;">
+                    <hr style="flex-grow: 1; border: 0; border-top: 1px solid var(--border);">
+                    <span class="text-muted" style="font-size: 0.85rem;">OR</span>
+                    <hr style="flex-grow: 1; border: 0; border-top: 1px solid var(--border);">
+                </div>
+
+                <!-- Google Login Wrapper -->
+                <!-- REPLACE 'YOUR_GOOGLE_CLIENT_ID' with your actual Google Cloud Console Client ID -->
+                <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-context="signin" data-ux_mode="popup"
+                    data-callback="handleCredentialResponse" data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                    data-text="sign_in_with" data-size="large" data-logo_alignment="left" data-width="360">
+                </div>
             </form>
 
             <div style="margin-top: 20px; text-align: center; font-size: 0.9rem;" class="text-muted">

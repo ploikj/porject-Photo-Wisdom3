@@ -140,6 +140,38 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// Google Login (Prototype)
+app.post('/api/auth/google', async (req, res) => {
+    const { username, email, name, avatar, google_id } = req.body;
+
+    try {
+        // Check if user exists (by google_id if we had it, or username/email)
+        const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+
+        let user;
+        if (rows.length > 0) {
+            // User exists, login them
+            if (rows[0].is_banned) return res.status(403).json({ success: false, message: 'Banned' });
+            user = rows[0];
+
+            // Optional: Update avatar if it's the UI avatar default? 
+            // Let's keep existing user data to avoid overwriting changes.
+        } else {
+            // Register new user automatically
+            const [result] = await pool.query(
+                'INSERT INTO users (username, password, name, role, avatar) VALUES (?, ?, ?, ?, ?)',
+                [username, 'google_auth', name, 'user', avatar]
+            );
+            user = { id: result.insertId, username, name, role: 'user', avatar };
+        }
+
+        const { password, ...safeUser } = user;
+        res.json({ success: true, user: safeUser });
+    } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
 // Register
 app.post('/api/register', async (req, res) => {
     const { username, password, name } = req.body;
@@ -326,7 +358,7 @@ app.delete('/api/photos/:id', async (req, res) => {
     const { username } = req.body; // Authenticated user
     try {
         // Check ownership
-        const [photos] = await pool.query('SELECT user_id FROM photos WHERE id = ?', [req.params.id]);
+        const [photos] = await pool.query('SELECT user_id, url FROM photos WHERE id = ?', [req.params.id]);
         if (photos.length === 0) return res.status(404).json({ success: false, message: 'Photo not found' });
 
         const [users] = await pool.query('SELECT id, role, username FROM users WHERE username = ?', [username]);
@@ -343,8 +375,13 @@ app.delete('/api/photos/:id', async (req, res) => {
         // Our schema definition had ON DELETE CASCADE for comments.
         await pool.query('DELETE FROM photos WHERE id = ?', [req.params.id]);
 
-        // Also delete file? In a real app yes. For prototype, we might skip or do:
-        // if (photo.url.startsWith('/uploads/')) fs.unlink(...)
+        // Delete file
+        if (photo.url && photo.url.startsWith('/uploads/')) {
+            const filePath = path.join(__dirname, photo.url);
+            fs.unlink(filePath, (err) => {
+                if (err) console.error('Failed to delete photo file:', filePath, err.message);
+            });
+        }
 
         res.json({ success: true });
     } catch (e) {
@@ -461,6 +498,56 @@ app.put('/api/topics/:id', async (req, res) => {
         await pool.query('UPDATE topics SET title = ? WHERE id = ?', [title, req.params.id]);
         res.json({ success: true });
     } catch (e) {
+        res.status(500).json({ success: false, message: e.message });
+    }
+});
+
+// Google Auth
+app.post('/api/auth/google', async (req, res) => {
+    const { username, email, name, avatar, google_id } = req.body;
+
+    try {
+        // 1. Check if user exists by email or google_id
+        const [existingUsers] = await pool.query(
+            'SELECT * FROM users WHERE email = ? OR google_id = ?',
+            [email, google_id]
+        );
+
+        if (existingUsers.length > 0) {
+            // User exists - Login
+            const user = existingUsers[0];
+
+            // Optional: Update avatar/name from Google if they changed
+            // await pool.query('UPDATE users SET avatar = ? WHERE id = ?', [avatar, user.id]);
+
+            return res.json({ success: true, user });
+        } else {
+            // User does not exist - Register
+            // Handle username collision: if 'alice' exists, try 'alice_1', 'alice_2'...
+            let finalUsername = username;
+            let counter = 1;
+            while (true) {
+                const [check] = await pool.query('SELECT id FROM users WHERE username = ?', [finalUsername]);
+                if (check.length === 0) break;
+                finalUsername = `${username}_${counter}`;
+                counter++;
+            }
+
+            // Create new user (Password is random/placeholder since they use Google)
+            const placeholderPassword = Math.random().toString(36).slice(-8);
+
+            await pool.query(
+                'INSERT INTO users (username, password, name, avatar, email, google_id, role) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [finalUsername, placeholderPassword, name, avatar, email, google_id, 'user']
+            );
+
+            // Fetch the new user to return
+            const [newUser] = await pool.query('SELECT * FROM users WHERE username = ?', [finalUsername]);
+
+            return res.json({ success: true, user: newUser[0] });
+        }
+    } catch (e) {
+        console.error("Google Auth Error:", e);
         res.status(500).json({ success: false, message: e.message });
     }
 });
@@ -612,7 +699,7 @@ app.delete('/api/events/:id', async (req, res) => {
     const { username } = req.body;
     console.log(`[DELETE] Request to delete event ID: ${req.params.id} by user: ${username}`);
     try {
-        const [events] = await pool.query('SELECT user_id FROM events WHERE id = ?', [req.params.id]);
+        const [events] = await pool.query('SELECT user_id, image_url FROM events WHERE id = ?', [req.params.id]);
         console.log(`[DELETE] Found events:`, events);
 
         if (events.length === 0) return res.status(404).json({ success: false, message: 'Event not found' });
@@ -628,6 +715,14 @@ app.delete('/api/events/:id', async (req, res) => {
         }
 
         await pool.query('DELETE FROM events WHERE id = ?', [req.params.id]);
+
+        // Delete file
+        if (event.image_url && event.image_url.startsWith('/uploads/')) {
+            const filePath = path.join(__dirname, event.image_url);
+            fs.unlink(filePath, (err) => {
+                if (err) console.error('Failed to delete event file:', filePath, err.message);
+            });
+        }
         res.json({ success: true, message: 'Event deleted' });
     } catch (e) {
         console.error('[DELETE] Error:', e);
@@ -662,15 +757,19 @@ app.get('/api/users', async (req, res) => {
 });
 
 
-// Update User Profile
-app.put('/api/users/:username', async (req, res) => {
+// Update User Profile (Supports Avatar)
+app.put('/api/users/:username', upload.single('avatar'), async (req, res) => {
     const { username: requester, bio, facebook, instagram, camera_gear, lens_gear, is_open_for_work } = req.body;
 
     // Check auth
-    if (!requester) return res.status(401).json({ success: false, message: 'Login required' });
+    console.log('[DEBUG] Update Profile Request. Body:', req.body, 'File:', req.file);
+    if (!requester) {
+        console.error('[DEBUG] Login required check failed. Requester:', requester);
+        return res.status(401).json({ success: false, message: 'Login required' });
+    }
 
     try {
-        const [users] = await pool.query('SELECT role FROM users WHERE username = ?', [requester]);
+        const [users] = await pool.query('SELECT role, avatar FROM users WHERE username = ?', [requester]);
         if (users.length === 0) return res.status(401).json({ success: false, message: 'User not found' });
 
         // Allow if admin or same user
@@ -678,19 +777,33 @@ app.put('/api/users/:username', async (req, res) => {
             return res.status(403).json({ success: false, message: 'Unauthorized' });
         }
 
-        await pool.query(
-            `UPDATE users SET 
+        let avatarUrl = undefined;
+        if (req.file) {
+            avatarUrl = '/uploads/' + req.file.filename;
+        }
+
+        // Dynamic Update Query
+        let sql = `UPDATE users SET 
                 bio = ?, 
                 facebook = ?, 
                 instagram = ?, 
                 camera_gear = ?, 
                 lens_gear = ?, 
-                is_open_for_work = ? 
-            WHERE username = ?`,
-            [bio, facebook, instagram, camera_gear, lens_gear, is_open_for_work, req.params.username]
-        );
+                is_open_for_work = ?`;
 
-        res.json({ success: true });
+        const params = [bio, facebook, instagram, camera_gear, lens_gear, is_open_for_work];
+
+        if (avatarUrl) {
+            sql += `, avatar = ?`;
+            params.push(avatarUrl);
+        }
+
+        sql += ` WHERE username = ?`;
+        params.push(req.params.username);
+
+        await pool.query(sql, params);
+
+        res.json({ success: true, avatar: avatarUrl });
     } catch (e) {
         res.status(500).json({ success: false, message: e.message });
     }

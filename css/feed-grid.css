@@ -1,0 +1,102 @@
+/* Community Feed - Vertical Single Column */
+.feed-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    /* More space between posts */
+    max-width: 680px;
+    /* Standard feed width (like FB/IG) */
+    margin: 0 auto;
+    /* Center on screen */
+    padding-bottom: 60px;
+}
+
+/* Photo Card Styling */
+.photo-card {
+    /* No height restriction here, let content flow */
+    border: none;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.photo-header {
+    padding: 15px 20px 10px;
+    /* Add padding to header */
+    margin-bottom: 0;
+}
+
+.photo-content {
+    width: 100%;
+    aspect-ratio: 4/3;
+    /* Enforce uniform shape (Standard Photo) */
+    /* aspect-ratio: 1/1;  <-- Use this if you want perfect squares */
+    overflow: hidden;
+    background-color: #000;
+}
+
+.photo-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Show full image without cropping */
+    background-color: #0f1014;
+    /* Match frame to dark theme */
+    transition: transform 0.3s ease;
+}
+
+.photo-card:hover .photo-content img {
+    transform: none;
+    /* Disable zoom on vertical feed for cleaner look */
+}
+
+/* Footer & Actions */
+.photo-footer {
+    padding: 15px 20px;
+    /* Add padding to footer */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.photo-card .actions {
+    margin-top: 5px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .feed-grid {
+        max-width: 100%;
+        gap: 15px;
+        /* Force full width to screen edges */
+        margin-left: -12px !important;
+        margin-right: -12px !important;
+        width: calc(100% + 24px) !important;
+    }
+
+    .photo-card {
+        border-radius: 0 !important;
+        /* Edge to edge, no corners */
+        border-left: none !important;
+        border-right: none !important;
+        box-shadow: none !important;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .photo-header,
+    .photo-footer {
+        padding: 12px 15px;
+        /* Adjust padding for mobile */
+    }
+
+    .photo-content {
+        /* On mobile, slightly taller ratio looks better, or keep 4/3 */
+        aspect-ratio: 4/3;
+    }
+}

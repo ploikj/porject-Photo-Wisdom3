@@ -119,6 +119,17 @@ async function renderUserPhotos(username) {
     }
 }
 
+// Preview Avatar
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('edit-avatar-preview').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 // Modal Logic
 function openEditModal() {
     if (!currentProfile) return;
@@ -129,6 +140,10 @@ function openEditModal() {
     document.getElementById('edit-facebook').value = currentProfile.facebook || '';
     document.getElementById('edit-instagram').value = currentProfile.instagram || '';
     document.getElementById('edit-open-work').checked = (currentProfile.is_open_for_work == 1 || currentProfile.is_open_for_work === 'true');
+
+    // Set Preview to current avatar
+    document.getElementById('edit-avatar-preview').src = currentProfile.avatar || 'https://ui-avatars.com/api/?background=random';
+    document.getElementById('edit-avatar-input').value = ''; // Reset file input
 
     document.getElementById('edit-modal').classList.add('active');
 }
@@ -141,22 +156,28 @@ document.getElementById('save-btn').onclick = async () => {
     if (!currentProfile) return;
 
     const user = auth.getCurrentUser();
-    const data = {
-        username: user.username,
-        bio: document.getElementById('edit-bio').value,
-        facebook: document.getElementById('edit-facebook').value,
-        instagram: document.getElementById('edit-instagram').value,
-        camera_gear: document.getElementById('edit-camera').value,
-        lens_gear: document.getElementById('edit-lens').value,
-        is_open_for_work: document.getElementById('edit-open-work').checked
-    };
+
+    // Use FormData for File Upload
+    const formData = new FormData();
+    formData.append('username', user.username);
+    formData.append('bio', document.getElementById('edit-bio').value);
+    formData.append('facebook', document.getElementById('edit-facebook').value);
+    formData.append('instagram', document.getElementById('edit-instagram').value);
+    formData.append('camera_gear', document.getElementById('edit-camera').value);
+    formData.append('lens_gear', document.getElementById('edit-lens').value);
+    formData.append('is_open_for_work', document.getElementById('edit-open-work').checked ? '1' : '0');
+
+    const fileInput = document.getElementById('edit-avatar-input');
+    if (fileInput.files[0]) {
+        formData.append('avatar', fileInput.files[0]);
+    }
 
     const btn = document.getElementById('save-btn');
     btn.innerText = 'Saving...';
     btn.disabled = true;
 
     try {
-        const res = await api.updateUserProfile(currentProfile.username, data);
+        const res = await api.updateUserProfile(currentProfile.username, formData);
         if (res.success) {
             closeEditModal();
             renderProfile(); // Reload UI

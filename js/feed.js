@@ -27,8 +27,8 @@ async function renderFeed() {
                         </div>
                     </div>
                     
-                    <div class="photo-content" style="margin-bottom: 15px; border-radius: var(--radius-sm); overflow: hidden;">
-                        <img src="${photo.url}" alt="${photo.caption}" style="width: 100%; height: auto; display: block;">
+                    <div class="photo-content">
+                        <img src="${photo.url}" alt="${photo.caption}">
                     </div>
 
                     <div class="photo-footer">

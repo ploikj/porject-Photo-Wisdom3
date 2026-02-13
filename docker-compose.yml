@@ -11,6 +11,8 @@ services:
       - DB_PASSWORD=proot
       - DB_NAME=photo_community
     volumes:
+      - ./:/app
+      - /app/node_modules
       - ./uploads:/app/uploads
     depends_on:
       - db

@@ -95,11 +95,22 @@
         <h2 style="margin-bottom: 20px;">Edit Profile</h2>
         <form id="edit-profile-form" onsubmit="event.preventDefault();">
             <div class="form-group">
+                <label class="form-label">Profile Picture</label>
+                <div class="flex items-center gap-4">
+                    <img id="edit-avatar-preview" src=""
+                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border);">
+                    <input type="file" id="edit-avatar-input" class="form-control" accept="image/*"
+                        onchange="previewAvatar(this)">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="form-label">Bio</label>
                 <textarea id="edit-bio" class="form-control" rows="3"></textarea>
             </div>
 
             <div class="grid grid-cols-2 gap-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+
+
                 <div class="form-group">
                     <label class="form-label">Camera Body</label>
                     <input type="text" id="edit-camera" class="form-control" placeholder="e.g. Sony A7IV">

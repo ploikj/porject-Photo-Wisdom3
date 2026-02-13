@@ -18,6 +18,20 @@ class ApiClient {
         }
     }
 
+    async googleAuth(userData) {
+        try {
+            const res = await fetch(`${API_BASE}/auth/google`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+            return await res.json();
+        } catch (e) {
+            console.error(e);
+            return { success: false, message: 'Server error' };
+        }
+    }
+
     async register(username, password, name) {
         try {
             const res = await fetch(`${API_BASE}/register`, {
@@ -177,6 +191,15 @@ class ApiClient {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ role, requesterUsername })
+        });
+        return await res.json();
+    }
+
+    async updateUserProfile(username, formData) {
+        // Uses FormData for file upload support
+        const res = await fetch(`${API_BASE}/users/${encodeURIComponent(username)}`, {
+            method: 'PUT',
+            body: formData
         });
         return await res.json();
     }
