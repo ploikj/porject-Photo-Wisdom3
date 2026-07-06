@@ -12,7 +12,7 @@ const PORT = 3000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // --- MySQL Connection Pool (Lazy Init) ---
@@ -51,7 +51,7 @@ async function initDB() {
             pool = mysql.createPool(DB_CONFIG);
 
             // 3. Create Tables
-            const sql = fs.readFileSync(path.join(__dirname, 'database.sql'), 'utf8');
+            const sql = fs.readFileSync(path.join(__dirname, 'scripts', 'database.sql'), 'utf8');
             const setupConn = await pool.getConnection();
             await setupConn.query(sql);
 
@@ -114,16 +114,17 @@ const upload = multer({ storage: storage });
 // --- Routes ---
 
 // Page Routes (Clean URLs)
-app.get('/upload', (req, res) => res.sendFile(path.join(__dirname, 'upload.html')));
-app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
-app.get('/profile', (req, res) => res.sendFile(path.join(__dirname, 'profile.html')));
-app.get('/board', (req, res) => res.sendFile(path.join(__dirname, 'board.html')));
-app.get('/admin-dashboard', (req, res) => res.sendFile(path.join(__dirname, 'admin-dashboard.html')));
-app.get('/search', (req, res) => res.sendFile(path.join(__dirname, 'search.html')));
-app.get('/photo', (req, res) => res.sendFile(path.join(__dirname, 'photo.html')));
-app.get('/events', (req, res) => res.sendFile(path.join(__dirname, 'events.html')));
-app.get('/event', (req, res) => res.sendFile(path.join(__dirname, 'event.html')));
-app.get('/create-event.html', (req, res) => res.sendFile(path.join(__dirname, 'create-event.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
+app.get('/upload', (req, res) => res.sendFile(path.join(__dirname, 'views', 'upload.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'views', 'login.html')));
+app.get('/profile', (req, res) => res.sendFile(path.join(__dirname, 'views', 'profile.html')));
+app.get('/board', (req, res) => res.sendFile(path.join(__dirname, 'views', 'board.html')));
+app.get('/admin-dashboard', (req, res) => res.sendFile(path.join(__dirname, 'views', 'admin-dashboard.html')));
+app.get('/search', (req, res) => res.sendFile(path.join(__dirname, 'views', 'search.html')));
+app.get('/photo', (req, res) => res.sendFile(path.join(__dirname, 'views', 'photo.html')));
+app.get('/events', (req, res) => res.sendFile(path.join(__dirname, 'views', 'events.html')));
+app.get('/event', (req, res) => res.sendFile(path.join(__dirname, 'views', 'event.html')));
+app.get('/create-event.html', (req, res) => res.sendFile(path.join(__dirname, 'views', 'create-event.html')));
 
 // API Routes
 
